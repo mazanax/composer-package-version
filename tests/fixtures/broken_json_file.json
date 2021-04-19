@@ -1,0 +1,5 @@
+{
+  "name": "test/package",
+  "description": "Broken json file with specified version",
+  "version": "1.2.3",
+}
