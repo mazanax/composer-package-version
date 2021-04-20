@@ -6,21 +6,17 @@ namespace MZNX\ComposerPackageVersion;
 
 use InvalidArgumentException;
 use JsonException;
+use Version\Version;
 
 class PackageVersion
 {
-    private string $pathToComposerJson;
-    private ?string $version = null;
-
     private static ?PackageVersion $instance = null;
+    private string $pathToComposerJson;
+    private ?Version $version = null;
 
     private function __construct(string $pathToComposerJson)
     {
         $this->pathToComposerJson = $pathToComposerJson;
-    }
-
-    private function __clone()
-    {
     }
 
     public static function init(string $pathToComposerJson): self
@@ -32,10 +28,10 @@ class PackageVersion
         return self::$instance;
     }
 
-    public function getVersion(): string
+    public function getVersion(): Version
     {
         if (null === $this->version) {
-            $this->version = $this->parseVersion();
+            $this->version = Version::fromString($this->parseVersion());
         }
 
         return $this->version;
@@ -58,5 +54,9 @@ class PackageVersion
         }
 
         return trim($json['version'] ?? 'dev-master');
+    }
+
+    private function __clone()
+    {
     }
 }
